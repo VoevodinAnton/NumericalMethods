@@ -1,3 +1,4 @@
+/*
 package ru.ssau.tk.fx.numericalmethods.controller;
 
 import java.io.IOException;
@@ -12,3 +13,5 @@ public class PrimaryController {
         System.out.println("1");
     }
 }
+
+ */

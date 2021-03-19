@@ -1,3 +1,4 @@
+/*
 package ru.ssau.tk.fx.numericalmethods.controller;
 
 import java.io.IOException;
@@ -12,3 +13,6 @@ public class SecondaryController {
         System.out.println("2");
     }
 }
+
+
+ */

@@ -1,38 +1,41 @@
 package ru.ssau.tk.fx.numericalmethods.view;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedAreaChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
 
-    private static Scene scene;
-
     @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/ru/ssau/tk/fx/numericalmethods/primary"), 640, 480);
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage primaryStage) throws Exception {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/ru/ssau/tk/fx/numericalmethods/sample1.fxml"));
+        Scene scene = new Scene(root, 600, 400);
+        scene.getStylesheets().add(getClass().getResource("/ru/ssau/tk/fx/numericalmethods/style.css").toExternalForm());
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+
     }
 
-    public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 
 }
