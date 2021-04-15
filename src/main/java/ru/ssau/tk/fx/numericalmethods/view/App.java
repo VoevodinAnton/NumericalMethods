@@ -23,10 +23,9 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/ru/ssau/tk/fx/numericalmethods/sample1.fxml"));
-        Scene scene = new Scene(root, 600, 400);
-        scene.getStylesheets().add(getClass().getResource("/ru/ssau/tk/fx/numericalmethods/style.css").toExternalForm());
-        primaryStage.setTitle("Hello World");
+        Parent root = FXMLLoader.load(getClass().getResource("/ru/ssau/tk/fx/numericalmethods/Lab1.fxml"));
+        Scene scene = new Scene(root, 668, 504);
+
         primaryStage.setScene(scene);
         primaryStage.show();
 
