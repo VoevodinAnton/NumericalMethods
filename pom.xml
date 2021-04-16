@@ -20,6 +20,7 @@
             <artifactId>javafx-fxml</artifactId>
             <version>15</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

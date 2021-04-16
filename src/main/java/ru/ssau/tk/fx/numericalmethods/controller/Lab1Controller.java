@@ -9,8 +9,14 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import ru.ssau.tk.fx.numericalmethods.model.FirstLabFunction;
 
 public class Lab1Controller {
+    private double x;
+    private FirstLabFunction y = new FirstLabFunction();
+    private final double epsilon = 0.0001;
+    private final double delta = 0.0001;
+    private double root;
 
 
     @FXML
@@ -22,8 +28,6 @@ public class Lab1Controller {
     @FXML
     public Label numberOfIterationsHyb;
 
-    @FXML
-    public javafx.scene.chart.LineChart<String, Number> lineChart;
 
     @FXML
     public Label rootHD;
@@ -41,10 +45,13 @@ public class Lab1Controller {
     public Label numberOfIterationsHD;
 
     @FXML
-    public CategoryAxis xAxis;
+    public NumberAxis xAxis = new NumberAxis();
 
     @FXML
-    public NumberAxis yAxis;
+    public NumberAxis yAxis = new NumberAxis();
+
+    @FXML
+    public javafx.scene.chart.LineChart<Number, Number> lineChart = new LineChart(xAxis, yAxis);
 
     @FXML
     public Button buildButton;
@@ -54,8 +61,32 @@ public class Lab1Controller {
 
     @FXML
     public void calculate(ActionEvent actionEvent) {
-        System.out.println("Hello world");
-        rootHyb.setText("");
+        Double a = Double.parseDouble(leftBorderField.getText());
+        Double b = Double.parseDouble(rightBorderField.getText());
+        double c;
+
+        int i = 0;
+        while (true) {
+            c = (a + b) / 2;
+            if (Math.abs(b - a) < 2 * epsilon) {
+                root = c;
+                break;
+            }
+            if (Math.abs(y.apply(c)) < delta) {
+                root = c;
+                break;
+            }
+            if (y.apply(a) * y.apply(c) < 0){
+                b = c;
+            } else {
+                a = c;
+            }
+            i++;
+        }
+        rootHD.setText(Double.toString(root));
+        numberOfIterationsHD.setText(Integer.toString(i));
+        discrepancyHD.setText(Double.toString(y.apply(root)));
+
     }
 
 
@@ -63,26 +94,16 @@ public class Lab1Controller {
     public void buildPlot(ActionEvent actionEvent) {
         rootHyb.setText("hello");
 
-        System.out.println("hello");
-        xAxis = new CategoryAxis();
-        xAxis.setLabel("Month");
-        yAxis = new NumberAxis();
-        lineChart = new LineChart(xAxis,yAxis);
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Portfolio 1");
 
-        series1.getData().add(new XYChart.Data("Jan", 23));
-        series1.getData().add(new XYChart.Data("Feb", 14));
-        series1.getData().add(new XYChart.Data("Mar", 15));
-        series1.getData().add(new XYChart.Data("Apr", 24));
-        series1.getData().add(new XYChart.Data("May", 34));
-        series1.getData().add(new XYChart.Data("Jun", 36));
-        series1.getData().add(new XYChart.Data("Jul", 22));
-        series1.getData().add(new XYChart.Data("Aug", 45));
-        series1.getData().add(new XYChart.Data("Sep", 43));
-        series1.getData().add(new XYChart.Data("Oct", 17));
-        series1.getData().add(new XYChart.Data("Nov", 29));
-        series1.getData().add(new XYChart.Data("Dec", 25));
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Plot 1");
+
+
+        for (int i = -500; i < 500; i++) {
+            x = i / 100.;
+            series1.getData().add(
+                    new XYChart.Data<Number, Number>(x, y.apply(x)));
+        }
         lineChart.getData().addAll(series1);
         lineChart.setVisible(true);
     }
