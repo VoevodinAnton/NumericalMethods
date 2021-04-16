@@ -10,8 +10,11 @@ public class PrimaryController {
     @FXML
     private void switchToSecondary() throws IOException {
         App.setRoot("/ru/ssau/tk/fx/numericalmethods/secondary");
+
         System.out.println("1");
     }
 }
 
  */
+
+

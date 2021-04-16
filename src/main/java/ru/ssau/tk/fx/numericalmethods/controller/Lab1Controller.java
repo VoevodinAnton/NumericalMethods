@@ -2,7 +2,6 @@ package ru.ssau.tk.fx.numericalmethods.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -10,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ru.ssau.tk.fx.numericalmethods.model.FirstLabFunction;
+
+
 
 public class Lab1Controller {
     private double x;
@@ -83,6 +84,7 @@ public class Lab1Controller {
             }
             i++;
         }
+
         rootHD.setText(Double.toString(root));
         numberOfIterationsHD.setText(Integer.toString(i));
         discrepancyHD.setText(Double.toString(y.apply(root)));
@@ -93,11 +95,8 @@ public class Lab1Controller {
     @FXML
     public void buildPlot(ActionEvent actionEvent) {
         rootHyb.setText("hello");
-
-
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Plot 1");
-
 
         for (int i = -500; i < 500; i++) {
             x = i / 100.;
