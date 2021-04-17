@@ -1,5 +1,6 @@
 package ru.ssau.tk.fx.numericalmethods.controller;
 
+import javafx.beans.binding.DoubleExpression;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -8,17 +9,29 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.function.Constant;
 import ru.ssau.tk.fx.numericalmethods.model.FirstLabFunction;
-
+import org.mariuszgromada.math.mxparser.*;
 
 
 public class Lab1Controller {
+
+
     private double x;
-    private FirstLabFunction y = new FirstLabFunction();
+    private FirstLabFunction f = new FirstLabFunction();
     private final double epsilon = 0.0001;
     private final double delta = 0.0001;
-    private double root;
+    private double rootHD;
+    private double rootHyb;
 
+
+    @FXML
+    public ImageView refreshButton;
+
+    @FXML
+    public Button calculateButton;
 
     @FXML
     public TextField rightBorderField;
@@ -27,23 +40,23 @@ public class Lab1Controller {
     public TextField initialValueField;
 
     @FXML
-    public Label numberOfIterationsHyb;
+    public Label numberOfIterationsHybLabel;
 
 
     @FXML
-    public Label rootHD;
+    public Label rootHDLabel;
 
     @FXML
-    public Label discrepancyHD;
+    public Label discrepancyHDLabel;
 
     @FXML
-    public Label rootHyb;
+    public Label rootHybLabel;
 
     @FXML
-    public Label discrepancyHyb;
+    public Label discrepancyHybLabel;
 
     @FXML
-    public Label numberOfIterationsHD;
+    public Label numberOfIterationsHDLabel;
 
     @FXML
     public NumberAxis xAxis = new NumberAxis();
@@ -61,49 +74,88 @@ public class Lab1Controller {
     public TextField leftBorderField;
 
     @FXML
+    public void refresh(){
+
+    }
+
+    @FXML
     public void calculate(ActionEvent actionEvent) {
-        Double a = Double.parseDouble(leftBorderField.getText());
-        Double b = Double.parseDouble(rightBorderField.getText());
+        double a = Double.parseDouble(leftBorderField.getText());
+        double b = Double.parseDouble(rightBorderField.getText());
         double c;
 
+        //метод половинного деления
         int i = 0;
         while (true) {
             c = (a + b) / 2;
             if (Math.abs(b - a) < 2 * epsilon) {
-                root = c;
+                rootHD = c;
                 break;
             }
-            if (Math.abs(y.apply(c)) < delta) {
-                root = c;
+            if (Math.abs(f.value(c)) < delta) {
+                rootHD = c;
                 break;
             }
-            if (y.apply(a) * y.apply(c) < 0){
+            if (f.value(a) * f.value(c) < 0) {
                 b = c;
             } else {
                 a = c;
             }
             i++;
         }
+        rootHDLabel.setText(Double.toString(rootHD));
+        numberOfIterationsHDLabel.setText(Integer.toString(i));
+        discrepancyHDLabel.setText(Double.toString(f.value(rootHD)));
 
-        rootHD.setText(Double.toString(root));
-        numberOfIterationsHD.setText(Integer.toString(i));
-        discrepancyHD.setText(Double.toString(y.apply(root)));
+        //Гибридный метод
+        int params = 1;
+        int order = 1;
+
+        double xk = Double.parseDouble(initialValueField.getText());
+        double xkNew;
+        int j = 0;
+        while (true) {
+            DerivativeStructure x = new DerivativeStructure(params, order, 0, xk);
+            DerivativeStructure y = f.value(x);
+            xkNew = xk - y.getValue() / y.getPartialDerivative(1);
+
+            if (Math.abs(xkNew - xk) < 2 * epsilon) {
+                rootHyb = xkNew;
+                break;
+            }
+            if (Math.abs(f.value(xkNew)) < delta) {
+                rootHyb = xkNew;
+                break;
+            }
+
+            while (true){
+                if (Math.abs(f.value(xkNew)) < Math.abs(f.value(xk))) {
+                    xk = xkNew;
+                    break;
+                } else {
+                    xkNew = 1 / 2. * (xk + xkNew);
+                }
+
+            }
+            j++;
+        }
+        numberOfIterationsHybLabel.setText(Integer.toString(j));
+        rootHybLabel.setText(Double.toString(rootHyb));
+        discrepancyHybLabel.setText(Double.toString(f.value(rootHyb)));
 
     }
 
 
     @FXML
     public void buildPlot(ActionEvent actionEvent) {
-        rootHyb.setText("hello");
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Plot 1");
 
         for (int i = -500; i < 500; i++) {
             x = i / 100.;
             series1.getData().add(
-                    new XYChart.Data<Number, Number>(x, y.apply(x)));
+                    new XYChart.Data<Number, Number>(x, f.value(x)));
         }
         lineChart.getData().addAll(series1);
-        lineChart.setVisible(true);
     }
 }
