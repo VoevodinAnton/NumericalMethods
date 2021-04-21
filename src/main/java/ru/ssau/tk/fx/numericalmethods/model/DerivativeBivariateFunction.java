@@ -51,7 +51,6 @@ public class DerivativeBivariateFunction implements FunctionExtension {
 
     @Override
     public double calculate() {
-        System.out.println(flag);
         if (flag == 1) {
             setDerivativeArgument("x");
             e = new Expression("der(" + function + ", " + derivativeArgument + ")", xArgument, yArgument);

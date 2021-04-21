@@ -1,10 +1,10 @@
 package ru.ssau.tk.fx.numericalmethods.view;
 
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.*;
 import org.mariuszgromada.math.mxparser.*;
 import ru.ssau.tk.fx.numericalmethods.model.BivariateFunction;
 import ru.ssau.tk.fx.numericalmethods.model.DerivativeBivariateFunction;
+import ru.ssau.tk.fx.numericalmethods.utils.Constants;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class Main {
         System.out.println("1: " + function.calculate(2));
         System.out.println("2: " + functionD.calculate(2));
 
-         */
+
 
         String f3 = "x^3+y^2";
         Function function2 = new Function("f", new DerivativeBivariateFunction(f3));
@@ -41,7 +41,46 @@ public class Main {
         String f4 = "x^3+y^2";
         Function function3 = new Function("f", new BivariateFunction(f4));
         System.out.println("4: " + function3.calculate(2, 2));
-        double[][] matrixData2 = { {1d,2d}, {2d,5d}};
+        double[][] matrixData2 = {{1d, 2d}, {2d, 5d}};
         RealMatrix n = new Array2DRowRealMatrix(matrixData2);
+
+         */
+
+
+        String f1 = "y - x^3 + 3";
+        String f2 = "y^2 - x - 3";
+        double valueX = 3;
+        double valueY = 3;
+
+        Function firstFunction = new Function("f1", new BivariateFunction(f1));
+        Function secondFunction = new Function("f2", new BivariateFunction(f2));
+        Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunction(f1));
+        Function secondFunctionD = new Function("f2D", new DerivativeBivariateFunction(f2));
+
+        RealVector xkVector = new ArrayRealVector(new double[]{valueX, valueY}, false);
+        RealVector xkNewVector;
+
+
+        while (true) {
+            RealVector functions = new ArrayRealVector(new double[]{firstFunction.calculate(xkVector.getEntry(0), xkVector.getEntry(1)), secondFunction.calculate(xkVector.getEntry(0), xkVector.getEntry(1))}, false);
+            System.out.println("functions:" + functions.toString());
+            System.out.println("xkVector: " + xkVector);
+            RealMatrix jacobian = new Array2DRowRealMatrix(new double[][]{{firstFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 1), firstFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 2)}, {secondFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 1), secondFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 2)}});
+            RealMatrix jacobianInverse = new LUDecomposition(jacobian).getSolver().getInverse();
+            xkNewVector = xkVector.subtract(jacobianInverse.operate(functions));
+            if (Math.abs(xkVector.getEntry(0) - xkNewVector.getEntry(0)) <  Constants.epsilon && Math.abs(xkVector.getEntry(1) - xkNewVector.getEntry(1)) < Constants.epsilon) {
+                break;
+            }
+            xkVector = xkNewVector;
+        }
+
+        System.out.println(firstFunction.calculate(2.000000466, 2.2360680952));
+        System.out.println(xkVector.getEntry(0));
+        System.out.println(xkVector.getEntry(1));
+
+
+
+
+
     }
 }

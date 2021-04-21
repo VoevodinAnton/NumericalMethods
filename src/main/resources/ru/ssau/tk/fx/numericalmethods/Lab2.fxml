@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Lab2Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Lab2Controller">
    <children>
       <LineChart fx:id="lineChart" createSymbols="false" layoutY="6.0">
         <xAxis>
@@ -25,5 +26,27 @@
       <TextField fx:id="yField" layoutX="513.0" layoutY="367.0" promptText="Введите значение" />
       <Button fx:id="calculateButton" layoutX="607.0" layoutY="420.0" mnemonicParsing="false" onAction="#calculate" style="-fx-background-color: #E0FFFF; -fx-border-color: #000000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Вычислить" />
       <Button fx:id="buildButton" layoutX="609.0" layoutY="191.0" mnemonicParsing="false" onAction="#buildPlot" style="-fx-background-color: #E0FFFF; -fx-background-radius: 10;" text="Построить" />
+      <Label layoutX="40.0" layoutY="410.0" text="Метод Ньютона">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="437.0" text="количество итераций:" />
+      <Label layoutX="40.0" layoutY="458.0" text="корень:" />
+      <Label layoutX="40.0" layoutY="479.0" text="невязка:" />
+      <Label layoutX="317.0" layoutY="477.0" text="невязка:" />
+      <Label layoutX="317.0" layoutY="456.0" text="корень:" />
+      <Label layoutX="317.0" layoutY="435.0" text="количество итераций:" />
+      <Label layoutX="317.0" layoutY="408.0" text="Метод Ньютона (М)">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberOfModifiedNewtonMethodIterationsLabel" layoutX="474.0" layoutY="435.0"  />
+      <Label fx:id="rootModifiedNewtonMethodLabel" layoutX="375.0" layoutY="456.0"  />
+      <Label fx:id="discrepancyModifiedNewtonMethodLabel" layoutX="383.0" layoutY="477.0"  />
+      <Label fx:id="discrepancyNewtonMethodLabel" layoutX="108.0" layoutY="479.0"  />
+      <Label fx:id="rootNewtonMethodLabel" layoutX="100.0" layoutY="458.0"  />
+      <Label fx:id="numberOfNewtonMethodIterationsLabel" layoutX="199.0" layoutY="437.0"  />
    </children>
 </AnchorPane>
