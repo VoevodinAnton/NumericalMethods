@@ -23,9 +23,6 @@ public class Lab1Controller {
     public Label errorLabel;
 
 
-
-
-
     @FXML
     public ImageView refreshButton;
 
@@ -83,7 +80,7 @@ public class Lab1Controller {
         Function function = new Function("f", new UnivariateFunction(expression));
 
         //метод половинного деления
-        if (!leftBorderField.getText().equals("") && !rightBorderField.getText().equals("")){
+        if (!leftBorderField.getText().equals("") && !rightBorderField.getText().equals("")) {
             double a = Double.parseDouble(leftBorderField.getText());
             double b = Double.parseDouble(rightBorderField.getText());
 
@@ -91,13 +88,13 @@ public class Lab1Controller {
 
             numberOfIterationsHDLabel.setText(Integer.toString(methods.getIterationHalfDivision()));
             rootHDLabel.setText(String.format("%.4f", rootHD));
-            discrepancyHDLabel.setText(String.format("%6.3e",function.calculate(rootHD)));
+            discrepancyHDLabel.setText(String.format("%6.3e", function.calculate(rootHD)));
         }
 
 
         //Гибридный метод
 
-        if (!initialValueField.getText().equals("")){
+        if (!initialValueField.getText().equals("")) {
             double xk = Double.parseDouble(initialValueField.getText());
             try {
                 double rootHyb = methods.calculateHybridMethod(expression, xk);
@@ -105,7 +102,7 @@ public class Lab1Controller {
                 rootHybLabel.setText(String.format("%.4f", rootHyb));
                 discrepancyHybLabel.setText(String.format("%6.3e", function.calculate(rootHyb)));
                 errorLabel.setText("");
-            } catch (Exception e){
+            } catch (Exception e) {
                 errorLabel.setText("Ошибка: деление на 0");
                 numberOfIterationsHybLabel.setText("ошибка");
                 rootHybLabel.setText("ошибка");
@@ -124,11 +121,11 @@ public class Lab1Controller {
 
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Plot 1");
-        if (!ExpressionField.getText().equals("")){
+        if (!ExpressionField.getText().equals("")) {
             String function = ExpressionField.getText();
             Argument x1 = new Argument("x = 0");
             Expression expression = new Expression(function, x1);
-            if (expression.checkSyntax()){
+            if (expression.checkSyntax()) {
                 for (int i = -500; i < 500; i++) {
                     x = i / 100.;
                     expression.setArgumentValue("x", x);
