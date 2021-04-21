@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Lab2Controller">
+   <children>
+      <LineChart fx:id="lineChart" createSymbols="false" layoutY="6.0">
+        <xAxis>
+          <NumberAxis lowerBound="-10.0" side="BOTTOM" upperBound="10.0" fx:id="xAxis" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxis" lowerBound="-20.0" side="LEFT" upperBound="20.0" />
+        </yAxis>
+      </LineChart>
+      <TextField fx:id="firstFunctionField" layoutX="513.0" layoutY="67.0" promptText="Введите функцию" />
+      <Label layoutX="513.0" layoutY="37.0" text="Первая функция:" />
+      <Label layoutX="515.0" layoutY="111.0" text="Вторая функция:" />
+      <TextField fx:id="secondFunctionField" layoutX="513.0" layoutY="145.0" promptText="Введите функцию" />
+      <Label layoutX="513.0" layoutY="266.0" text="Начальное приближение для X:" />
+      <TextField layoutX="513.0" layoutY="300.0" promptText="Введите значение" fx:id="xField" />
+      <Label layoutX="513.0" layoutY="337.0" text="Начальное приближение для Y:" />
+      <TextField fx:id="yField" layoutX="513.0" layoutY="367.0" promptText="Введите значение" />
+      <Button fx:id="calculateButton" layoutX="607.0" layoutY="420.0" mnemonicParsing="false" onAction="#calculate" style="-fx-background-color: #E0FFFF; -fx-border-color: #000000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Вычислить" />
+      <Button fx:id="buildButton" layoutX="609.0" layoutY="191.0" mnemonicParsing="false" onAction="#buildPlot" style="-fx-background-color: #E0FFFF; -fx-background-radius: 10;" text="Построить" />
+   </children>
+</AnchorPane>

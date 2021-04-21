@@ -9,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import org.apache.commons.math3.random.MersenneTwister;
-import ru.ssau.tk.fx.numericalmethods.model.DerivativeUnivariateFunction;
 import org.mariuszgromada.math.mxparser.*;
 import ru.ssau.tk.fx.numericalmethods.model.UnivariateFunction;
 
@@ -120,21 +118,28 @@ public class Lab1Controller {
 
     @FXML
     public void buildPlot(ActionEvent actionEvent) {
+        //clear
+        lineChart.getData().clear();
+        errorLabel.setText("");
+
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Plot 1");
         if (!ExpressionField.getText().equals("")){
-
             String function = ExpressionField.getText();
             Argument x1 = new Argument("x = 0");
-            Expression e = new Expression(function, x1);
-            for (int i = -500; i < 500; i++) {
-                x = i / 100.;
-                e.setArgumentValue("x", x);
-                series1.getData().add(
-                        new XYChart.Data<Number, Number>(x1.getArgumentValue(), e.calculate()));
+            Expression expression = new Expression(function, x1);
+            if (expression.checkSyntax()){
+                for (int i = -500; i < 500; i++) {
+                    x = i / 100.;
+                    expression.setArgumentValue("x", x);
+                    series1.getData().add(
+                            new XYChart.Data<Number, Number>(x1.getArgumentValue(), expression.calculate()));
+                }
+
+                lineChart.getData().addAll(series1);
+            } else {
+                errorLabel.setText("Ошибка: некорректная функция");
             }
-            lineChart.getData().clear();
-            lineChart.getData().addAll(series1);
         }
 
     }
