@@ -34,12 +34,13 @@ public class Main {
         Function functionD = new Function("f", new DerivativeFunction(f2));
         System.out.println("1: " + function.calculate(2));
         System.out.println("2: " + functionD.calculate(2));
+        */
 
 
 
-        String f3 = "x^3+y^2";
-        Function function2 = new Function("f", new DerivativeBivariateFunction(f3));
-        System.out.println("3: " + function2.calculate(2, 2, 2));
+        String f3 = "sin(y) - 2*x - 1";
+        Function function2 = new Function("f", new BivariateFunction(f3));
+        System.out.println("3: " + function2.calculate(-0.9450111638, -1.0973941402));
 
         String f4 = "x^3+y^2";
         Function function3 = new Function("f", new BivariateFunction(f4));
@@ -47,9 +48,7 @@ public class Main {
         double[][] matrixData2 = {{1d, 2d}, {2d, 5d}};
         RealMatrix n = new Array2DRowRealMatrix(matrixData2);
 
-         */
 /*
-
         String f1 = "y - x^3 + 3";
         String f2 = "y^2 - x - 3";
         double valueX = 3;

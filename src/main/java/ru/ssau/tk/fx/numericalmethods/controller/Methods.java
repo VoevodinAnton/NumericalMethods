@@ -1,7 +1,9 @@
 package ru.ssau.tk.fx.numericalmethods.controller;
 
 import org.apache.commons.math3.linear.*;
+import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
+import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.Function;
 import ru.ssau.tk.fx.numericalmethods.model.BivariateFunction;
 import ru.ssau.tk.fx.numericalmethods.model.DerivativeBivariateFunction;
@@ -109,10 +111,43 @@ public class Methods {
         return xkNewVector;
     }
 
+    public RealVector calculateModifiedNewtonMethod(String f1, String f2, double xValue, double yValue) throws Exception{
+        Function firstFunction = new Function("f1", new BivariateFunction(f1));
+        Function secondFunction = new Function("f2", new BivariateFunction(f2));
+        Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunction(f1));
+        Function secondFunctionD = new Function("f2D", new DerivativeBivariateFunction(f2));
+
+        RealVector xkVector = new ArrayRealVector(new double[]{xValue, yValue}, false);
+        RealVector xkNewVector;
+        RealMatrix jacobian = new Array2DRowRealMatrix(new double[][]{{firstFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 1), firstFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 2)}, {secondFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 1), secondFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 2)}});
+        RealMatrix jacobianInverse = new LUDecomposition(jacobian).getSolver().getInverse();
+
+        while (true) {
+            RealVector functions = new ArrayRealVector(new double[]{firstFunction.calculate(xkVector.getEntry(0), xkVector.getEntry(1)), secondFunction.calculate(xkVector.getEntry(0), xkVector.getEntry(1))}, false);
+
+            xkNewVector = xkVector.subtract(jacobianInverse.operate(functions));
+            iterationModifiedNewtonMethod++;
+            if (Math.abs(xkVector.getEntry(0) - xkNewVector.getEntry(0)) < Constants.epsilon && Math.abs(xkVector.getEntry(1) - xkNewVector.getEntry(1)) < Constants.epsilon) {
+                break;
+            }
+            xkVector = xkNewVector;
+        }
+        return xkNewVector;
+
+    }
+
+    public double getDiscrepancy(String f, double xValue, double yValue){
+        Function function = new Function("f", new BivariateFunction(f));
+        return function.calculate(xValue, yValue);
+    }
+
 
     public int getIterationNewtonMethod(){
         return iterationNewtonMethod;
     }
 
+    public int getIterationModifiedNewtonMethod() {
+        return iterationModifiedNewtonMethod;
+    }
 }
 
