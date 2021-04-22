@@ -12,6 +12,8 @@ import ru.ssau.tk.fx.numericalmethods.utils.Constants;
 public class Methods {
     private int iterationHalfDivision = 0;
     private int iterationHybridMethod = 0;
+    private int iterationNewtonMethod = 0;
+    private int iterationModifiedNewtonMethod = 0;
 
 
     public double calculateHalfDivision(String expression, double a, double b) {
@@ -55,7 +57,7 @@ public class Methods {
         while (true) {
 
             xkNew = xk - function.calculate(xk) / functionD.calculate(xk);
-
+            iterationHybridMethod++;
             if (Math.abs(xkNew - xk) < 2 * Constants.epsilon) {
                 rootHyb = xkNew;
                 break;
@@ -73,7 +75,7 @@ public class Methods {
                     xkNew = 1 / 2. * (xk + xkNew);
                 }
             }
-            iterationHybridMethod++;
+
         }
         return rootHyb;
     }
@@ -98,12 +100,18 @@ public class Methods {
             RealMatrix jacobian = new Array2DRowRealMatrix(new double[][]{{firstFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 1), firstFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 2)}, {secondFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 1), secondFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 2)}});
             RealMatrix jacobianInverse = new LUDecomposition(jacobian).getSolver().getInverse();
             xkNewVector = xkVector.subtract(jacobianInverse.operate(functions));
+            iterationNewtonMethod++;
             if (Math.abs(xkVector.getEntry(0) - xkNewVector.getEntry(0)) < Constants.epsilon && Math.abs(xkVector.getEntry(1) - xkNewVector.getEntry(1)) < Constants.epsilon) {
                 break;
             }
             xkVector = xkNewVector;
         }
-        return xkVector;
+        return xkNewVector;
+    }
+
+
+    public int getIterationNewtonMethod(){
+        return iterationNewtonMethod;
     }
 
 }

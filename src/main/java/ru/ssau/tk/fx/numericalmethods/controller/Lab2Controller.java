@@ -61,7 +61,7 @@ public class Lab2Controller {
         XYChart.Series series2 = new XYChart.Series();
         series1.setName("Plot 1");
         series2.setName("Plot 2");
-        double x = 0;
+        double x;
 
         if (!firstFunctionField.getText().equals("") || !secondFunctionField.getText().equals("")) {
 
@@ -70,7 +70,7 @@ public class Lab2Controller {
             String[] firstStrings = firstFunction.split("\\s*,\\s*");
             String domainOfTheFirstFunction = "-20, 20";
 
-            String rx = "\\[(.*?)\\]";
+            String rx = "\\[(.*?)]";
             Pattern ptrn = Pattern.compile(rx);
 
             if (firstStrings.length > 1) {
@@ -97,20 +97,19 @@ public class Lab2Controller {
 
 
             Argument xValue = new Argument("x = 0");
-            Expression firstExpression = new Expression("solve(" + firstFunction + ", y," + domainOfTheFirstFunction + ")", xValue);
-            Expression secondExpression = new Expression("solve(" + secondFunction + ", y," + domainOfTheSecondFunction + ")", xValue);
+            Expression firstExpression = new Expression("solve(" + firstStrings[0] + ", y," + domainOfTheFirstFunction + ")", xValue);
+            Expression secondExpression = new Expression("solve(" + secondStrings[0] + ", y," + domainOfTheSecondFunction + ")", xValue);
 
             if (firstExpression.checkSyntax() && secondExpression.checkSyntax()) {
-                for (int i = -50; i < 50; i++) {
-                    x = i / 10.;
+                for (int i = -500; i < 500; i++) {
+                    x = i / 100.;
+                    firstExpression.setArgumentValue("x", x);
+                    secondExpression.setArgumentValue("x", x);
                     if (!Double.isNaN(firstExpression.calculate()) && !Double.isNaN(secondExpression.calculate())) {
-                        System.out.println("1: " + firstExpression.calculate());
-                        firstExpression.setArgumentValue("x", x);
+
                         series1.getData().add(
                                 new XYChart.Data<Number, Number>(xValue.getArgumentValue(), firstExpression.calculate()));
 
-                        System.out.println("2: " + secondExpression.calculate());
-                        secondExpression.setArgumentValue("x", x);
                         series2.getData().add(
                                 new XYChart.Data<Number, Number>(xValue.getArgumentValue(), secondExpression.calculate()));
                     }
@@ -134,16 +133,21 @@ public class Lab2Controller {
 
 
         String f1 = firstFunctionField.getText();
+        String firstFunction = f1.split("\\s*,\\s*")[0];
         String f2 = secondFunctionField.getText();
+        String secondFunction = f2.split("\\s*,\\s*")[0];
         double valueX = Double.parseDouble(xField.getText());
         double valueY = Double.parseDouble(yField.getText());
         Methods methods = new Methods();
-        try {
-            RealVector rootVector = methods.calculateNewtonMethod(f1, f2, valueX, valueY);
 
+        try {
+            RealVector rootNewtonMethodVector = methods.calculateNewtonMethod(firstFunction, secondFunction, valueX, valueY);
+            rootNewtonMethodLabel.setText(rootNewtonMethodVector.toString());
         } catch (Exception e) {
             errorLabel.setText("Ошибка: неккоректная система уравнений");
         }
+
+
 
     }
 

@@ -16,15 +16,15 @@
           <NumberAxis fx:id="yAxis" lowerBound="-20.0" side="LEFT" upperBound="20.0" />
         </yAxis>
       </LineChart>
-      <TextField fx:id="firstFunctionField" layoutX="513.0" layoutY="67.0" promptText="Введите функцию" />
+      <TextField fx:id="firstFunctionField" layoutX="513.0" layoutY="67.0" prefHeight="31.0" prefWidth="189.0" promptText="Введите функцию" />
       <Label layoutX="513.0" layoutY="37.0" text="Первое выражение" />
       <Label layoutX="515.0" layoutY="111.0" text="Второе выражение:" />
-      <TextField fx:id="secondFunctionField" layoutX="513.0" layoutY="145.0" promptText="Введите функцию" />
+      <TextField fx:id="secondFunctionField" layoutX="513.0" layoutY="145.0" prefHeight="31.0" prefWidth="189.0" promptText="Введите функцию" />
       <Label layoutX="513.0" layoutY="266.0" text="Начальное приближение для X:" />
-      <TextField layoutX="513.0" layoutY="300.0" promptText="Введите значение" fx:id="xField" />
+      <TextField layoutX="513.0" layoutY="300.0" prefHeight="31.0" prefWidth="189.0" promptText="Введите значение" fx:id="xField" />
       <Label layoutX="513.0" layoutY="337.0" text="Начальное приближение для Y:" />
-      <TextField fx:id="yField" layoutX="513.0" layoutY="367.0" promptText="Введите значение" />
-      <Button fx:id="calculateButton" layoutX="607.0" layoutY="420.0" mnemonicParsing="false" onAction="#calculate" style="-fx-background-color: #E0FFFF; -fx-border-color: #000000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Вычислить" />
+      <TextField fx:id="yField" layoutX="513.0" layoutY="367.0" prefHeight="31.0" prefWidth="189.0" promptText="Введите значение" />
+      <Button fx:id="calculateButton" layoutX="608.0" layoutY="421.0" mnemonicParsing="false" onAction="#calculate" style="-fx-background-color: #E0FFFF; -fx-border-color: #000000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Вычислить" />
       <Button fx:id="buildButton" layoutX="609.0" layoutY="191.0" mnemonicParsing="false" onAction="#buildPlot" style="-fx-background-color: #E0FFFF; -fx-background-radius: 10;" text="Построить" />
       <Label layoutX="40.0" layoutY="410.0" text="Метод Ньютона">
          <font>
