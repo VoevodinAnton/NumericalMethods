@@ -6,6 +6,9 @@ import ru.ssau.tk.fx.numericalmethods.model.BivariateFunction;
 import ru.ssau.tk.fx.numericalmethods.model.DerivativeBivariateFunction;
 import ru.ssau.tk.fx.numericalmethods.utils.Constants;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Main {
     public static void main(String[] args) {
         /*
@@ -52,6 +55,27 @@ public class Main {
         double valueX = 3;
         double valueY = 3;
 
+        Argument x = new Argument("x = 3");
+        Expression definedExpression = new Expression("solve(sin(y) - 2*x - 1, y, -pi/2, pi/2)", x);
+        System.out.println(definedExpression.calculate());
+
+
+        String string = "aaaaa]";
+        String[] strings = string.split("\\s*,\\s*");
+        System.out.println(strings[0]);
+
+
+
+        String str = "John Doe [      123456789]";
+        String rx = "\\[(.*?)\\]";
+        Pattern ptrn = Pattern.compile(rx);
+        Matcher m = ptrn.matcher(str);
+        if (m.find()){
+            System.out.println(m.group(1));
+        }
+
+
+        /*
         Function firstFunction = new Function("f1", new BivariateFunction(f1));
         Function secondFunction = new Function("f2", new BivariateFunction(f2));
         Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunction(f1));
@@ -79,6 +103,8 @@ public class Main {
         System.out.println(xkVector.getEntry(1));
 
 
+
+         */
 
 
 

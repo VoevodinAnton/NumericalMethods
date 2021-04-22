@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.chart.*?>
@@ -16,8 +17,8 @@
         </yAxis>
       </LineChart>
       <TextField fx:id="firstFunctionField" layoutX="513.0" layoutY="67.0" promptText="Введите функцию" />
-      <Label layoutX="513.0" layoutY="37.0" text="Первая функция:" />
-      <Label layoutX="515.0" layoutY="111.0" text="Вторая функция:" />
+      <Label layoutX="513.0" layoutY="37.0" text="Первое выражение" />
+      <Label layoutX="515.0" layoutY="111.0" text="Второе выражение:" />
       <TextField fx:id="secondFunctionField" layoutX="513.0" layoutY="145.0" promptText="Введите функцию" />
       <Label layoutX="513.0" layoutY="266.0" text="Начальное приближение для X:" />
       <TextField layoutX="513.0" layoutY="300.0" promptText="Введите значение" fx:id="xField" />
@@ -47,5 +48,6 @@
       <Label fx:id="discrepancyNewtonMethodLabel" layoutX="108.0" layoutY="479.0" />
       <Label fx:id="rootNewtonMethodLabel" layoutX="100.0" layoutY="458.0" />
       <Label fx:id="numberOfNewtonMethodIterationsLabel" layoutX="199.0" layoutY="437.0" />
+      <Label fx:id="errorLabel" layoutX="513.0" layoutY="14.0" textFill="RED" />
    </children>
 </AnchorPane>

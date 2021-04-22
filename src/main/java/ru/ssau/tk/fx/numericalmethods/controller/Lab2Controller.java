@@ -12,6 +12,9 @@ import org.apache.commons.math3.linear.*;
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class Lab2Controller {
     @FXML
@@ -45,44 +48,68 @@ public class Lab2Controller {
     public Label discrepancyNewtonMethodLabel;
     @FXML
     public Label rootNewtonMethodLabel;
+    @FXML
+    public Label errorLabel;
 
 
     public void buildPlot(ActionEvent actionEvent) { //TODO: сделать введение функции в поле с функцией с двумя переменными
+        //clear
+        lineChart.getData().clear();
+        errorLabel.setText("");
+
         XYChart.Series series1 = new XYChart.Series();
         XYChart.Series series2 = new XYChart.Series();
         series1.setName("Plot 1");
         series2.setName("Plot 2");
-        double x;
+        double x = 0;
 
         if (!firstFunctionField.getText().equals("") || !secondFunctionField.getText().equals("")) {
-            lineChart.getData().clear();
+
 
             String firstFunction = firstFunctionField.getText();
+            String[] firstStrings = firstFunction.split("\\s*,\\s*");
+            String domainOfTheFirstFunction = "-20 , 20 ";
+            String rx = "\\[(.*?)\\]";
+            Pattern ptrn = Pattern.compile(rx);
+            Matcher m = ptrn.matcher(firstStrings[1]);
+            if (m.find()){
+                domainOfTheFirstFunction = m.group(1);
+            }
+
             String secondFunction = secondFunctionField.getText();
-            Argument x1 = new Argument("x = 0");
-            Expression firstExpression = new Expression(firstFunction, x1);
-            Expression secondExpression = new Expression(secondFunction, x1);
+            String[] secondStrings = secondFunction.split("\\s*,\\s*");
+            Argument xValue = new Argument("x = 0");
+            Expression firstExpression = new Expression("solve(" + firstFunction + ", y," + domainOfTheFirstFunction + ")", xValue);
+            Expression secondExpression = new Expression("solve(" + secondFunction + ", y, -100, 100)", xValue);
 
             if (firstExpression.checkSyntax() && secondExpression.checkSyntax()) {
-                for (int i = -500; i < 500; i++) {
-                    x = i / 100.;
+                for (int i = -50; i < 50; i++) {
+                    x = i / 10.;
                     firstExpression.setArgumentValue("x", x);
                     series1.getData().add(
-                            new XYChart.Data<Number, Number>(x1.getArgumentValue(), firstExpression.calculate()));
+                            new XYChart.Data<Number, Number>(xValue.getArgumentValue(), firstExpression.calculate()));
                     secondExpression.setArgumentValue("x", x);
                     series2.getData().add(
-                            new XYChart.Data<Number, Number>(x1.getArgumentValue(), secondExpression.calculate()));
+                            new XYChart.Data<Number, Number>(xValue.getArgumentValue(), secondExpression.calculate()));
                 }
 
                 lineChart.getData().addAll(series1, series2);
+            } else {
+                errorLabel.setText("Ошибка: некорректная функция");
             }
 
 
+        } else {
+            errorLabel.setText("Введите функцию");
         }
 
     }
 
     public void calculate(ActionEvent actionEvent) {
+        //clear
+        errorLabel.setText("");
+
+
         String f1 = firstFunctionField.getText();
         String f2 = secondFunctionField.getText();
         double valueX = Double.parseDouble(xField.getText());
@@ -92,7 +119,7 @@ public class Lab2Controller {
             RealVector rootVector = methods.calculateNewtonMethod(f1, f2, valueX, valueY);
 
         } catch (Exception e){
-
+            errorLabel.setText("Ошибка: неккоректная система уравнений");
         }
 
     }

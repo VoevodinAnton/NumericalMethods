@@ -75,6 +75,9 @@ public class Lab1Controller {
 
     @FXML
     public void calculate(ActionEvent actionEvent) {
+        //clear
+        errorLabel.setText("");
+
         Methods methods = new Methods();
         String expression = ExpressionField.getText();
         Function function = new Function("f", new UnivariateFunction(expression));
