@@ -3,7 +3,6 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.chart.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Lab2Controller">
@@ -42,11 +41,11 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="numberOfModifiedNewtonMethodIterationsLabel" layoutX="474.0" layoutY="435.0"  />
-      <Label fx:id="rootModifiedNewtonMethodLabel" layoutX="375.0" layoutY="456.0"  />
-      <Label fx:id="discrepancyModifiedNewtonMethodLabel" layoutX="383.0" layoutY="477.0"  />
-      <Label fx:id="discrepancyNewtonMethodLabel" layoutX="108.0" layoutY="479.0"  />
-      <Label fx:id="rootNewtonMethodLabel" layoutX="100.0" layoutY="458.0"  />
-      <Label fx:id="numberOfNewtonMethodIterationsLabel" layoutX="199.0" layoutY="437.0"  />
+      <Label fx:id="numberOfModifiedNewtonMethodIterationsLabel" layoutX="474.0" layoutY="435.0" />
+      <Label fx:id="rootModifiedNewtonMethodLabel" layoutX="375.0" layoutY="456.0" />
+      <Label fx:id="discrepancyModifiedNewtonMethodLabel" layoutX="383.0" layoutY="477.0" />
+      <Label fx:id="discrepancyNewtonMethodLabel" layoutX="108.0" layoutY="479.0" />
+      <Label fx:id="rootNewtonMethodLabel" layoutX="100.0" layoutY="458.0" />
+      <Label fx:id="numberOfNewtonMethodIterationsLabel" layoutX="199.0" layoutY="437.0" />
    </children>
 </AnchorPane>
