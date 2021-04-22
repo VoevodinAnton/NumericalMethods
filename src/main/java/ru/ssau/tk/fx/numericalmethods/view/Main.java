@@ -48,7 +48,7 @@ public class Main {
         RealMatrix n = new Array2DRowRealMatrix(matrixData2);
 
          */
-
+/*
 
         String f1 = "y - x^3 + 3";
         String f2 = "y^2 - x - 3";
@@ -66,14 +66,25 @@ public class Main {
 
 
 
-        String str = "John Doe [      123456789]";
+ */
+
+
+        String firstFunction = "sin(y) - 2*x - 1, [-pi/2; pi/2]";
+        String[] firstStrings = firstFunction.split("\\s*\\,\\s*");
+        String domainOfTheFirstFunction = "-20 , 20 ";
+
         String rx = "\\[(.*?)\\]";
         Pattern ptrn = Pattern.compile(rx);
-        Matcher m = ptrn.matcher(str);
+        Matcher m = ptrn.matcher(firstStrings[1]);
         if (m.find()){
-            System.out.println(m.group(1));
+            domainOfTheFirstFunction = m.group(1);
+            domainOfTheFirstFunction = domainOfTheFirstFunction.replaceAll(";", ",");
+            System.out.println(domainOfTheFirstFunction);
         }
+        Argument x = new Argument("x = 0");
+        Expression firstExpression = new Expression("solve(" + firstStrings[0] + ", y," + domainOfTheFirstFunction + ")", x);
 
+        System.out.println(firstExpression.calculate());
 
         /*
         Function firstFunction = new Function("f1", new BivariateFunction(f1));

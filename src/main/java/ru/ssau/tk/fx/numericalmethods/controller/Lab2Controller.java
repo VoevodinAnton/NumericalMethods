@@ -68,31 +68,54 @@ public class Lab2Controller {
 
             String firstFunction = firstFunctionField.getText();
             String[] firstStrings = firstFunction.split("\\s*,\\s*");
-            String domainOfTheFirstFunction = "-20 , 20 ";
+            String domainOfTheFirstFunction = "-20, 20";
+
             String rx = "\\[(.*?)\\]";
             Pattern ptrn = Pattern.compile(rx);
-            Matcher m = ptrn.matcher(firstStrings[1]);
-            if (m.find()){
-                domainOfTheFirstFunction = m.group(1);
+
+            if (firstStrings.length > 1) {
+
+                Matcher mFirst = ptrn.matcher(firstStrings[1]);
+                if (mFirst.find()) {
+                    domainOfTheFirstFunction = mFirst.group(1);
+                    domainOfTheFirstFunction = domainOfTheFirstFunction.replaceAll(";", ",");
+                }
             }
+
 
             String secondFunction = secondFunctionField.getText();
             String[] secondStrings = secondFunction.split("\\s*,\\s*");
+            String domainOfTheSecondFunction = "-20, 20 ";
+
+            if (secondStrings.length > 1) {
+                Matcher mSecond = ptrn.matcher(secondStrings[1]);
+                if (mSecond.find()) {
+                    domainOfTheSecondFunction = mSecond.group(1);
+                    domainOfTheSecondFunction = domainOfTheSecondFunction.replaceAll(";", ",");
+                }
+            }
+
+
             Argument xValue = new Argument("x = 0");
             Expression firstExpression = new Expression("solve(" + firstFunction + ", y," + domainOfTheFirstFunction + ")", xValue);
-            Expression secondExpression = new Expression("solve(" + secondFunction + ", y, -100, 100)", xValue);
+            Expression secondExpression = new Expression("solve(" + secondFunction + ", y," + domainOfTheSecondFunction + ")", xValue);
 
             if (firstExpression.checkSyntax() && secondExpression.checkSyntax()) {
                 for (int i = -50; i < 50; i++) {
                     x = i / 10.;
-                    firstExpression.setArgumentValue("x", x);
-                    series1.getData().add(
-                            new XYChart.Data<Number, Number>(xValue.getArgumentValue(), firstExpression.calculate()));
-                    secondExpression.setArgumentValue("x", x);
-                    series2.getData().add(
-                            new XYChart.Data<Number, Number>(xValue.getArgumentValue(), secondExpression.calculate()));
-                }
+                    if (!Double.isNaN(firstExpression.calculate()) && !Double.isNaN(secondExpression.calculate())) {
+                        System.out.println("1: " + firstExpression.calculate());
+                        firstExpression.setArgumentValue("x", x);
+                        series1.getData().add(
+                                new XYChart.Data<Number, Number>(xValue.getArgumentValue(), firstExpression.calculate()));
 
+                        System.out.println("2: " + secondExpression.calculate());
+                        secondExpression.setArgumentValue("x", x);
+                        series2.getData().add(
+                                new XYChart.Data<Number, Number>(xValue.getArgumentValue(), secondExpression.calculate()));
+                    }
+
+                }
                 lineChart.getData().addAll(series1, series2);
             } else {
                 errorLabel.setText("Ошибка: некорректная функция");
@@ -118,7 +141,7 @@ public class Lab2Controller {
         try {
             RealVector rootVector = methods.calculateNewtonMethod(f1, f2, valueX, valueY);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             errorLabel.setText("Ошибка: неккоректная система уравнений");
         }
 
