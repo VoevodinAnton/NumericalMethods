@@ -37,7 +37,7 @@ public class Main {
         */
 
 
-
+/*
         String f3 = "sin(y) - 2*x - 1";
         Function function2 = new Function("f", new BivariateFunction(f3));
         System.out.println("3: " + function2.calculate(-0.9450111638, -1.0973941402));
@@ -48,7 +48,9 @@ public class Main {
         double[][] matrixData2 = {{1d, 2d}, {2d, 5d}};
         RealMatrix n = new Array2DRowRealMatrix(matrixData2);
 
-/*
+ */
+
+
         String f1 = "y - x^3 + 3";
         String f2 = "y^2 - x - 3";
         double valueX = 3;
@@ -65,14 +67,14 @@ public class Main {
 
 
 
- */
+
 
 
         String firstFunction = "sin(y) - 2*x - 1, [-pi/2; pi/2]";
-        String[] firstStrings = firstFunction.split("\\s*\\,\\s*");
+        String[] firstStrings = firstFunction.split("\\s*,\\s*");
         String domainOfTheFirstFunction = "-20 , 20 ";
 
-        String rx = "\\[(.*?)\\]";
+        String rx = "\\[(.*?)]";
         Pattern ptrn = Pattern.compile(rx);
         Matcher m = ptrn.matcher(firstStrings[1]);
         if (m.find()){
@@ -80,8 +82,8 @@ public class Main {
             domainOfTheFirstFunction = domainOfTheFirstFunction.replaceAll(";", ",");
             System.out.println(domainOfTheFirstFunction);
         }
-        Argument x = new Argument("x = 0");
-        Expression firstExpression = new Expression("solve(" + firstStrings[0] + ", y," + domainOfTheFirstFunction + ")", x);
+        Argument x1 = new Argument("x = 0");
+        Expression firstExpression = new Expression("solve(" + firstStrings[0] + ", y," + domainOfTheFirstFunction + ")", x1);
 
         System.out.println(firstExpression.calculate());
 

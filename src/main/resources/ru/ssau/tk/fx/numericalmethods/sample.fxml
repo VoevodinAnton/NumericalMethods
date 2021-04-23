@@ -1,6 +1,0 @@
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Button?>
-<GridPane fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Controll"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <Button fx:id="fxButton" text="clickMe" onAction="#click"/>
-</GridPane>

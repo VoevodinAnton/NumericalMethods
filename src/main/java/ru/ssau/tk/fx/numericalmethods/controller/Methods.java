@@ -87,7 +87,7 @@ public class Methods {
     }
 
 
-    public RealVector calculateNewtonMethod(String f1, String f2, double xValue, double yValue) throws Exception{
+    public RealVector calculateNewtonMethod(String f1, String f2, double xValue, double yValue) throws Exception {
         Function firstFunction = new Function("f1", new BivariateFunction(f1));
         Function secondFunction = new Function("f2", new BivariateFunction(f2));
         Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunction(f1));
@@ -95,6 +95,7 @@ public class Methods {
 
         RealVector xkVector = new ArrayRealVector(new double[]{xValue, yValue}, false);
         RealVector xkNewVector;
+        double distance = Double.MAX_VALUE;
 
 
         while (true) {
@@ -106,12 +107,16 @@ public class Methods {
             if (Math.abs(xkVector.getEntry(0) - xkNewVector.getEntry(0)) < Constants.epsilon && Math.abs(xkVector.getEntry(1) - xkNewVector.getEntry(1)) < Constants.epsilon) {
                 break;
             }
+            if (xkNewVector.getDistance(xkVector) > distance) {
+                throw new IllegalArgumentException();
+            }
+            distance = xkVector.getDistance(xkNewVector);
             xkVector = xkNewVector;
         }
         return xkNewVector;
     }
 
-    public RealVector calculateModifiedNewtonMethod(String f1, String f2, double xValue, double yValue) throws Exception{
+    public RealVector calculateModifiedNewtonMethod(String f1, String f2, double xValue, double yValue) throws Exception {
         Function firstFunction = new Function("f1", new BivariateFunction(f1));
         Function secondFunction = new Function("f2", new BivariateFunction(f2));
         Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunction(f1));
@@ -122,6 +127,7 @@ public class Methods {
         RealMatrix jacobian = new Array2DRowRealMatrix(new double[][]{{firstFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 1), firstFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 2)}, {secondFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 1), secondFunctionD.calculate(xkVector.getEntry(0), xkVector.getEntry(1), 2)}});
         RealMatrix jacobianInverse = new LUDecomposition(jacobian).getSolver().getInverse();
 
+        double distance = Double.MAX_VALUE;
         while (true) {
             RealVector functions = new ArrayRealVector(new double[]{firstFunction.calculate(xkVector.getEntry(0), xkVector.getEntry(1)), secondFunction.calculate(xkVector.getEntry(0), xkVector.getEntry(1))}, false);
 
@@ -130,19 +136,23 @@ public class Methods {
             if (Math.abs(xkVector.getEntry(0) - xkNewVector.getEntry(0)) < Constants.epsilon && Math.abs(xkVector.getEntry(1) - xkNewVector.getEntry(1)) < Constants.epsilon) {
                 break;
             }
+            if (xkNewVector.getDistance(xkVector) > distance) {
+                throw new IllegalArgumentException();
+            }
+            distance = xkVector.getDistance(xkNewVector);
             xkVector = xkNewVector;
         }
         return xkNewVector;
 
     }
 
-    public double getDiscrepancy(String f, double xValue, double yValue){
+    public double getDiscrepancy(String f, double xValue, double yValue) {
         Function function = new Function("f", new BivariateFunction(f));
         return function.calculate(xValue, yValue);
     }
 
 
-    public int getIterationNewtonMethod(){
+    public int getIterationNewtonMethod() {
         return iterationNewtonMethod;
     }
 

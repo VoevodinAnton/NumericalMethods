@@ -146,23 +146,31 @@ public class Lab2Controller {
         try {
             RealVector rootNewtonMethodVector = methods.calculateNewtonMethod(firstFunction, secondFunction, valueX, valueY);
             numberOfNewtonMethodIterationsLabel.setText(Integer.toString(methods.getIterationNewtonMethod()));
-            rootNewtonMethodLabel.setText("(" + String.format("%.4f", rootNewtonMethodVector.getEntry(0)) + ", " +  String.format("%.4f", rootNewtonMethodVector.getEntry(1)) + ")");
-            discrepancyNewtonMethodLabel.setText("f_1(x,y) = " + String.format("%6.3e",methods.getDiscrepancy(firstFunction, rootNewtonMethodVector.getEntry(0), rootNewtonMethodVector.getEntry(1))) + "\n"+
-                    "f_2(x,y) = " + String.format("%6.3e",methods.getDiscrepancy(secondFunction, rootNewtonMethodVector.getEntry(0), rootNewtonMethodVector.getEntry(1))));
+            rootNewtonMethodLabel.setText("(" + String.format("%.4f", rootNewtonMethodVector.getEntry(0)) + ", " + String.format("%.4f", rootNewtonMethodVector.getEntry(1)) + ")");
+            discrepancyNewtonMethodLabel.setText("f_1(x,y) = " + String.format("%6.3e", methods.getDiscrepancy(firstFunction, rootNewtonMethodVector.getEntry(0), rootNewtonMethodVector.getEntry(1))) + "\n" +
+                    "f_2(x,y) = " + String.format("%6.3e", methods.getDiscrepancy(secondFunction, rootNewtonMethodVector.getEntry(0), rootNewtonMethodVector.getEntry(1))));
+        } catch (IllegalArgumentException e) {
+            errorLabel.setText("Метод Ньютона расходится");
+            numberOfNewtonMethodIterationsLabel.setText("");
+            rootNewtonMethodLabel.setText("");
+            discrepancyNewtonMethodLabel.setText("");
         } catch (Exception e) {
             errorLabel.setText("Ошибка: неккоректная система уравнений");
         }
-
-
 
 
         //Modified Newton Method
         try {
             RealVector rootModifiedNewtonMethodVector = methods.calculateModifiedNewtonMethod(firstFunction, secondFunction, valueX, valueY);
             numberOfModifiedNewtonMethodIterationsLabel.setText(Integer.toString(methods.getIterationModifiedNewtonMethod()));
-            rootModifiedNewtonMethodLabel.setText("(" + String.format("%.4f", rootModifiedNewtonMethodVector.getEntry(0)) + ", " +  String.format("%.4f", rootModifiedNewtonMethodVector.getEntry(1)) + ")");
-            discrepancyModifiedNewtonMethodLabel.setText("f_1(x,y) = " + String.format("%6.3e",methods.getDiscrepancy(firstFunction, rootModifiedNewtonMethodVector.getEntry(0), rootModifiedNewtonMethodVector.getEntry(1))) + "\n"+
-                    "f_2(x,y) = " + String.format("%6.3e",methods.getDiscrepancy(secondFunction, rootModifiedNewtonMethodVector.getEntry(0), rootModifiedNewtonMethodVector.getEntry(1))));
+            rootModifiedNewtonMethodLabel.setText("(" + String.format("%.4f", rootModifiedNewtonMethodVector.getEntry(0)) + ", " + String.format("%.4f", rootModifiedNewtonMethodVector.getEntry(1)) + ")");
+            discrepancyModifiedNewtonMethodLabel.setText("f_1(x,y) = " + String.format("%6.3e", methods.getDiscrepancy(firstFunction, rootModifiedNewtonMethodVector.getEntry(0), rootModifiedNewtonMethodVector.getEntry(1))) + "\n" +
+                    "f_2(x,y) = " + String.format("%6.3e", methods.getDiscrepancy(secondFunction, rootModifiedNewtonMethodVector.getEntry(0), rootModifiedNewtonMethodVector.getEntry(1))));
+        } catch (IllegalArgumentException e) {
+            errorLabel.setText("Метод Ньютона(М) расходится");
+            numberOfModifiedNewtonMethodIterationsLabel.setText("");
+            rootModifiedNewtonMethodLabel.setText("");
+            discrepancyModifiedNewtonMethodLabel.setText("");
         } catch (Exception e) {
             errorLabel.setText("Ошибка: неккоректная система уравнений");
         }

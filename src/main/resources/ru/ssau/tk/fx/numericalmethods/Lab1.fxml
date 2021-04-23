@@ -11,11 +11,6 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Lab1Controller">
    <children>
       <Label layoutX="579.0" layoutY="211.0" text="Правая граница:" />
-      <ImageView fx:id="refreshButton" fitHeight="33.0" fitWidth="76.0" layoutX="619.0" layoutY="372.0" onMouseClicked="#refresh" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Image/refresh-64x64.png" />
-         </image>
-      </ImageView>
       <Label layoutX="460.0" layoutY="51.0" text="Выражение:" />
       <TextField fx:id="ExpressionField" layoutX="460.0" layoutY="83.0" prefHeight="31.0" prefWidth="222.0" promptText="Введите выражение" />
       <Label layoutX="464.0" layoutY="295.0" text="Начальное приближение:" />
