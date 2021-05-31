@@ -15,8 +15,8 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/ru/ssau/tk/fx/numericalmethods/Lab2.fxml"));
-        Scene scene = new Scene(root, 745, 530);
+        Parent root = FXMLLoader.load(getClass().getResource("/ru/ssau/tk/fx/numericalmethods/Lab3.fxml"));
+        Scene scene = new Scene(root, 1245, 530);
 
         primaryStage.setScene(scene);
         primaryStage.show();

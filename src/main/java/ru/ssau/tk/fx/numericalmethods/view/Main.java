@@ -2,8 +2,10 @@ package ru.ssau.tk.fx.numericalmethods.view;
 
 import org.apache.commons.math3.linear.*;
 import org.mariuszgromada.math.mxparser.*;
+import ru.ssau.tk.fx.numericalmethods.controller.Methods;
 import ru.ssau.tk.fx.numericalmethods.model.BivariateFunction;
 import ru.ssau.tk.fx.numericalmethods.model.DerivativeBivariateFunction;
+import ru.ssau.tk.fx.numericalmethods.model.MyFunction;
 import ru.ssau.tk.fx.numericalmethods.utils.Constants;
 
 import java.util.regex.Matcher;
@@ -50,6 +52,7 @@ public class Main {
 
  */
 
+        /*
 
         String f1 = "y - x^3 + 3";
         String f2 = "y^2 - x - 3";
@@ -87,6 +90,8 @@ public class Main {
 
         System.out.println(firstExpression.calculate());
 
+         */
+
         /*
         Function firstFunction = new Function("f1", new BivariateFunction(f1));
         Function secondFunction = new Function("f2", new BivariateFunction(f2));
@@ -118,7 +123,11 @@ public class Main {
 
          */
 
+        Methods methods = new Methods();
+        //System.out.println(methods.defineAStep(3, 0, 10));
+        double[] x = {1, 2};
+        double[] y = {2, 4};
 
-
+        System.out.println(methods.interpolateWithLagrangePolynomial(x, y, 1.2));
     }
 }
