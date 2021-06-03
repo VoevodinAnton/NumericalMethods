@@ -171,69 +171,85 @@ public class Methods {
 
     public double calculateMNPlusOne( double a, double b) {
         DerivativeMyFunction derivativeMyFunction = new DerivativeMyFunction();
-        BrentOptimizer brentOptimizer = new BrentOptimizer(0.01, 0.01);
-        UnivariatePointValuePair optimalMax = brentOptimizer.optimize(GoalType.MAXIMIZE,
-                new SearchInterval(a, b),
-                new UnivariateObjectiveFunction(derivativeMyFunction), MaxEval.unlimited(), MaxEval.unlimited());
-        return optimalMax.getValue();
+
+        double min = derivativeMyFunction.value(a);
+        double shift = 0.000001;
+        double tmpMin = 0.0;
+        for (double i = a + shift; i < b; i += shift) {
+            tmpMin = derivativeMyFunction.value(i);
+            if (min > tmpMin)
+                min = tmpMin;
+        }
+
+        double max = derivativeMyFunction.value(a);
+        double tmpMax = 0.0;
+        for (double i = a + shift; i < b; i += shift) {
+            tmpMax = derivativeMyFunction.value(i);
+            if (max < tmpMax)
+                max = tmpMax;
+        }
+        return Math.max(Math.abs(max), Math.abs(min));
     }
 
     public double defineAStep(int n, double a, double b){
-        return Constants.epsilon * CombinatoricsUtils.factorial(n+1) / calculateMNPlusOne(a, b);
+        return FastMath.pow(Constants.epsilon * CombinatoricsUtils.factorial(n+1) / calculateMNPlusOne(a, b), 0.25);
+    }
+
+    public double[] descretizeX(double a, double b, double h){
+        MyFunction myFunction = new MyFunction();
+        int n = (int)Math.round((b - a) / h);
+        double[] xArray = new double[n];
+
+        double x = 0;
+
+        for(int i = 0; i < n; i++){
+            xArray[i] = x;
+            x += h;
+        }
+
+        return xArray;
+
+    }
+
+    public double[] descretizeY(double a, double b, double h){
+        MyFunction myFunction = new MyFunction();
+        int n = (int)Math.round((b - a) / h);
+        double x = 0;
+        double[] yArray = new double[n];
+
+        for(int i = 0; i < n; i++){
+            yArray[i] = myFunction.value(x);
+            x += h;
+        }
+        return yArray;
     }
 
     public double interpolateWithLagrangePolynomial(double[] x, double[] y, double z){
-        int nearest = 0;
-        final int n = x.length;
-        final double[] c = new double[n];
-        final double[] d = new double[n];
-        double min_dist = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < n; i++) {
-            // initialize the difference arrays
-            c[i] = y[i];
-            d[i] = y[i];
-            // find out the abscissa closest to z
-            final double dist = FastMath.abs(z - x[i]);
-            if (dist < min_dist) {
-                nearest = i;
-                min_dist = dist;
+        double resultFunction = 0;
+        for (int i = 0; i < x.length; i++){
+            double multiplier = 1;
+            for (int j = 0; j < x.length; j++){
+                if (i != j){
+                    multiplier *= (z - x[j]) / (x[i] - x[j]);
+                }
             }
+            resultFunction += y[i] * multiplier;
         }
-
-        // initial approximation to the function value at z
-        double value = y[nearest];
-
-
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < n-i; j++) {
-                final double tc = x[j] - z;
-                final double td = x[i+j] - z;
-                final double divider = x[j] - x[i+j];
-                // update the difference arrays
-                final double w = (c[j+1] - d[j]) / divider;
-                c[j] = tc * w;
-                d[j] = td * w;
-            }
-            // sum up the difference terms to get the final value
-            if (nearest < 0.5*(n-i+1)) {
-                value += c[nearest];    // fork down
-            } else {
-                nearest--;
-                value += d[nearest];    // fork up
-            }
-        }
-        return value;
+        return resultFunction;
     }
 
-    public double interpolateWithNewtonMethod(double x, double[] x_int, double[] y_int_l, double h){
-       double t = (x - x_int[0]) / h;
-        double dy0 = y_int_l[1] - y_int_l[0];
-       double dy1 = y_int_l[2] - y_int_l[1];
-        double dy2 = y_int_l[3] - y_int_l[2];
-       double dy0_2 = dy1 - dy0;
-       double dy1_2 = dy2 - dy1;
-       double dy0_3 = dy1_2 - dy0_2;
-        return y_int_l[0] + dy0 * t + dy0_2 * t * (t - 1) / 2 + dy0_3 * t * (t - 1) * (t - 2) / 6;
+    public double interpolateWithNewtonMethod(double z, double[] x, double[] y, double h){
+        double t = (z - x[0]) / h;
+        double[] dy = new double[x.length - 1];
+        for (int i = 0; i < x.length - 1; i++){
+            dy[i] = y[i + 1] - y[i];
+        }
+
+        double dy01 = dy[1] - dy[0];
+        double dy12 = dy[2] - dy[1];
+        double dy02 = dy12 - dy01;
+        return y[0] + dy[0] * t + dy01 * t * (t - 1) / 2 + dy02 * t * (t - 1) * (t - 2) / 6;
+
     }
 
     public PolynomialSplineFunction interpolateLinearSpline(double[] x, double[] y){

@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.chart.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane prefHeight="469.0" prefWidth="1229.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Lab3Controller">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.PerspectiveCamera?>
+<AnchorPane prefHeight="469.0" prefWidth="1229.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Lab3Controller">
     <children>
-        <LineChart fx:id="lineChartOne" createSymbols="false" layoutX="14.0" layoutY="14.0" prefHeight="303.0"
-                   prefWidth="379.0">
+        <LineChart fx:id="lineChartOne" createSymbols="false" layoutX="31.0" layoutY="20.0" prefHeight="286.0" prefWidth="379.0">
             <xAxis>
-                <NumberAxis side="BOTTOM" fx:id="xAxisOne"/>
+                <NumberAxis side="BOTTOM" fx:id="xAxisOne" />
             </xAxis>
             <yAxis>
-                <NumberAxis fx:id="yAxisOne" side="LEFT"/>
+                <NumberAxis fx:id="yAxisOne" side="LEFT" />
             </yAxis>
         </LineChart>
-        <LineChart createSymbols="false" layoutX="836.0" layoutY="14.0" prefHeight="303.0" prefWidth="379.0">
+        <LineChart createSymbols="false" layoutX="815.0" layoutY="11.0" prefHeight="303.0" prefWidth="379.0">
             <xAxis>
-                <NumberAxis side="BOTTOM"/>
+                <NumberAxis side="BOTTOM" />
             </xAxis>
             <yAxis>
-                <NumberAxis side="LEFT"/>
+                <NumberAxis side="LEFT" />
             </yAxis>
         </LineChart>
-        <LineChart fx:id="lineChartTwo" createSymbols="false" layoutX="425.0" layoutY="14.0" prefHeight="303.0"
-                   prefWidth="379.0">
+        <LineChart fx:id="lineChartTwo" createSymbols="false" layoutX="425.0" layoutY="11.0" prefHeight="303.0" prefWidth="379.0">
             <xAxis>
-                <NumberAxis fx:id="xAxisTwo" side="BOTTOM"/>
+                <NumberAxis side="BOTTOM" fx:id="xAxisTwo" />
             </xAxis>
             <yAxis>
-                <NumberAxis fx:id="yAxisTwo" side="LEFT"/>
+                <NumberAxis fx:id="yAxisTwo" side="LEFT" />
             </yAxis>
         </LineChart>
-        <Button fx:id="calculateButton" layoutX="1100.0" layoutY="333.0" mnemonicParsing="false" onAction="#calculate"
-                text="Посчитать"/>
+        <Button fx:id="calculateButton" layoutX="1100.0" layoutY="349.0" mnemonicParsing="false" onAction="#calculate" style="-fx-background-color: #E0FFFF; -fx-border-color: #000000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Посчитать" />
+      <PerspectiveCamera layoutX="187.0" layoutY="372.0" />
     </children>
 </AnchorPane>

@@ -128,6 +128,8 @@ public class Main {
         double[] x = {1, 2};
         double[] y = {2, 4};
 
-        System.out.println(methods.interpolateWithLagrangePolynomial(x, y, 1.2));
+
+        System.out.println(methods.calculateMNPlusOne(0, 10));
+        System.out.println(methods.defineAStep(3, 0, 10));
     }
 }

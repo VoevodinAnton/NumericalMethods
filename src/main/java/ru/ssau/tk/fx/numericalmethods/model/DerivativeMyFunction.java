@@ -7,11 +7,11 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 public class DerivativeMyFunction implements UnivariateDifferentiableFunction {
     @Override
     public DerivativeStructure value(DerivativeStructure t) throws DimensionMismatchException {
-        return ((t.add(20)).pow(-5).multiply(-960*Math.PI)).abs();
+        return ((t.add(20)).pow(-5).multiply(-960*Math.PI));
     }
 
     @Override
     public double value(double x) {
-        return Math.abs(-960*Math.PI / Math.pow((x+20),5));
+        return -960*Math.PI / Math.pow((x+20),5);
     }
 }
