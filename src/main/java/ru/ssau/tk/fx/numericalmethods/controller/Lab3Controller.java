@@ -24,6 +24,7 @@ public class Lab3Controller {
     XYChart.Series series7;
     XYChart.Series series8;
     XYChart.Series series9;
+    XYChart.Series series10;
     XYChart.Series series11;
     @FXML
     public LineChart lineChartOne;
@@ -53,17 +54,19 @@ public class Lab3Controller {
         series7 = new XYChart.Series();
         series8 = new XYChart.Series();
         series9 = new XYChart.Series();
+        series10 = new XYChart.Series();
         series11 = new XYChart.Series();
 
-        series1.setName("Plot 1");
-        series2.setName("Plot 2");
-        series3.setName("Plot 3");
-        series4.setName("Plot 4");
-        series5.setName("Plot 5");
-        series6.setName("Plot 6");
+        series1.setName("Function");
+        series2.setName("Lagrange");
+        series3.setName("Newton");
+        series4.setName("Linear spline");
+        series5.setName("Parabolic spline");
+        series6.setName("Cubic Spline");
         series7.setName("Plot 7");
         series8.setName("Plot 8");
         series9.setName("Plot 9");
+        series10.setName("Plot10");
         series11.setName("Plot 11");
 
 
@@ -106,12 +109,14 @@ public class Lab3Controller {
                     new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateWithNewtonMethod(x, xLagrange, yLagrange, h) - myFunction.value(x))));
             series9.getData().add(
                     new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateLinearSpline(xArray, yArray).value(x) - myFunction.value(x))));
+            series10.getData().add(
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateParabolicSpline(xLagrange, yLagrange).value(x) - myFunction.value(x))));
             series11.getData().add(
-                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateCubicSpline(xArray, yArray).value(x) - myFunction.value(x))));
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateCubicSpline(xLagrange, yLagrange).value(x) - myFunction.value(x))));
 
         }
 
-        lineChartOne.getData().addAll(series2, series3);
-        lineChartTwo.getData().addAll(series7, series8);
+        lineChartOne.getData().addAll( series6);
+        lineChartTwo.getData().addAll(series11);
     }
 }
