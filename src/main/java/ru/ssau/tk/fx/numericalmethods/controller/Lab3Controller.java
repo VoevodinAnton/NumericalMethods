@@ -6,9 +6,17 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
+import javafx.util.StringConverter;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.util.FastMath;
+import org.gillius.jfxutils.chart.JFXChartUtil;
 import ru.ssau.tk.fx.numericalmethods.model.MyFunction;
+import org.gillius.jfxutils.chart.ChartPanManager;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 public class Lab3Controller {
     Methods methods;
@@ -63,11 +71,11 @@ public class Lab3Controller {
         series4.setName("Linear spline");
         series5.setName("Parabolic spline");
         series6.setName("Cubic Spline");
-        series7.setName("Plot 7");
-        series8.setName("Plot 8");
-        series9.setName("Plot 9");
-        series10.setName("Plot10");
-        series11.setName("Plot 11");
+        series7.setName("Error Lagrange");
+        series8.setName("Error Newton");
+        series9.setName("Error Linear Spline");
+        series10.setName("Error Parabolic Spline");
+        series11.setName("Error Cubic Spline");
 
 
     }
@@ -82,14 +90,14 @@ public class Lab3Controller {
         double[] xLagrange = new double[4];
         double[] yLagrange = new double[4];
         for (int i = 0; i < 4; i++){
-            //TODO: сделать так, чтобы шаг вводил пользователь
-            xLagrange[i] = xArray[i];
-            yLagrange[i] = yArray[i];
+
+            xLagrange[i] = xArray[i+1];
+            yLagrange[i] = yArray[i+1];
         }
 
 
 
-        for (double x = 0; x <  3*h; x += 0.01) {
+        for (double x = h; x <  4*h; x += 0.01) {
             series1.getData().add(
                     new XYChart.Data<Number, Number>(x, myFunction.value(x)));
             series2.getData().add(
@@ -110,13 +118,96 @@ public class Lab3Controller {
             series9.getData().add(
                     new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateLinearSpline(xArray, yArray).value(x) - myFunction.value(x))));
             series10.getData().add(
-                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateParabolicSpline(xLagrange, yLagrange).value(x) - myFunction.value(x))));
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateParabolicSpline(xArray, yArray).value(x) - myFunction.value(x))));
             series11.getData().add(
-                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateCubicSpline(xLagrange, yLagrange).value(x) - myFunction.value(x))));
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateCubicSpline(xArray, yArray).value(x) - myFunction.value(x))));
 
         }
 
-        lineChartOne.getData().addAll( series6);
-        lineChartTwo.getData().addAll(series11);
+        /*
+        NumberFormat format = new DecimalFormat("#.#E0");
+        yAxisOne.setTickLabelFormatter(new StringConverter<Number>() {
+
+            @Override
+            public String toString(Number number) {
+                return format.format(number.doubleValue());
+            }
+
+            @Override
+            public Number fromString(String string) {
+                try {
+                    return format.parse(string);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0 ;
+                }
+            }
+
+        });
+
+         */
+
+
+
+        lineChartOne.getData().addAll(series1, series2,series3, series4, series5, series6);
+        ChartPanManager pannerOne = new ChartPanManager(lineChartOne);
+        //while presssing the left mouse button, you can drag to navigate
+        pannerOne.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {//set your custom combination to trigger navigation
+                // let it through
+            } else {
+                mouseEvent.consume();
+            }
+        });
+        pannerOne.start();
+
+        //holding the right mouse button will draw a rectangle to zoom to desired location
+        JFXChartUtil.setupZooming(lineChartOne, mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY)//set your custom combination to trigger rectangle zooming
+                mouseEvent.consume();
+        });
+
+        lineChartTwo.getData().addAll(series7, series8, series9, series10, series11);
+
+        ChartPanManager pannerTwo = new ChartPanManager(lineChartTwo);
+        //while presssing the left mouse button, you can drag to navigate
+        pannerTwo.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {//set your custom combination to trigger navigation
+                // let it through
+            } else {
+                mouseEvent.consume();
+            }
+        });
+        pannerTwo.start();
+
+        //holding the right mouse button will draw a rectangle to zoom to desired location
+        JFXChartUtil.setupZooming(lineChartTwo, mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY)//set your custom combination to trigger rectangle zooming
+                mouseEvent.consume();
+        });
+
+        NumberFormat format = new DecimalFormat("0.######E0");
+        yAxisTwo.setTickLabelFormatter(new StringConverter<Number>() {
+
+            @Override
+            public String toString(Number number) {
+                return format.format(number.doubleValue());
+            }
+
+            @Override
+            public Number fromString(String string) {
+                try {
+                    return format.parse(string);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0 ;
+                }
+            }
+
+        });
     }
+
+
+
+
 }

@@ -192,6 +192,7 @@ public class Methods {
     }
 
     public double defineAStep(int n, double a, double b) {
+
         return FastMath.pow(Constants.epsilon * CombinatoricsUtils.factorial(n + 1) / calculateMNPlusOne(a, b), 0.25);
     }
 
