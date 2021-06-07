@@ -4,7 +4,7 @@ import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.FunctionExtension;
 
-public class DerivativeBivariateFunction implements FunctionExtension {
+public class DerivativeBivariateFunctionLab2 implements FunctionExtension {
     String function;
     double x;
     double y;
@@ -14,7 +14,7 @@ public class DerivativeBivariateFunction implements FunctionExtension {
     Argument yArgument;
     Expression e;
 
-    public DerivativeBivariateFunction(String function) {
+    public DerivativeBivariateFunctionLab2(String function) {
         this.function = function;
         xArgument = new Argument("x =  0");
         yArgument = new Argument("y = 0");
@@ -71,7 +71,7 @@ public class DerivativeBivariateFunction implements FunctionExtension {
 
     @Override
     public FunctionExtension clone() {
-        return new DerivativeBivariateFunction(function);
+        return new DerivativeBivariateFunctionLab2(function);
     }
 
     public void setDerivativeArgument(String argument) {

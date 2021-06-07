@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.4238517324738114" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="1243.0" style="-fx-background-color: #3F334B;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ssau.tk.fx.numericalmethods.controller.Lab4Controller">
+    <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="484.0" prefWidth="524.0">
+            <children>
+                <LineChart fx:id="lineChart" createSymbols="false" layoutX="11.0">
+                    <xAxis>
+                        <NumberAxis side="BOTTOM" tickLabelFill="WHITE" fx:id="xAxis" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis" side="LEFT" tickLabelFill="WHITE" />
+                    </yAxis>
+                </LineChart>
+            </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="484.0" prefWidth="517.0">
+            <children>
+                <TableView fx:id="table" layoutX="13.0" layoutY="14.0" prefHeight="351.0" prefWidth="703.0" style="-fx-background-color: #3F334B;" />
+                <Button fx:id="calculateButton" layoutX="585.0" layoutY="430.0" mnemonicParsing="false" onAction="#calculate" prefHeight="33.0" prefWidth="112.0" style="-fx-background-color: #7701FF; -fx-border-color: #000000; -fx-border-radius: 10; -fx-background-radius: 10;" text="посчитать" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+            </children>
+        </AnchorPane>
+    </items>
+</SplitPane>

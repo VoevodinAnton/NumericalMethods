@@ -4,7 +4,7 @@ import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.FunctionExtension;
 
-public class BivariateFunction implements FunctionExtension {
+public class BivariateFunctionLab2 implements FunctionExtension {
     String function;
     double x;
     double y;
@@ -12,7 +12,7 @@ public class BivariateFunction implements FunctionExtension {
     Argument yArgument;
     Expression e;
 
-    public BivariateFunction(String function) {
+    public BivariateFunctionLab2(String function) {
         this.function = function;
         xArgument = new Argument("x =  0");
         yArgument = new Argument("y = 0");
@@ -52,6 +52,6 @@ public class BivariateFunction implements FunctionExtension {
 
     @Override
     public FunctionExtension clone() {
-        return new BivariateFunction(function);
+        return new BivariateFunctionLab2(function);
     }
 }

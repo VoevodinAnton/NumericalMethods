@@ -1,15 +1,6 @@
 package ru.ssau.tk.fx.numericalmethods.view;
 
-import org.apache.commons.math3.linear.*;
-import org.mariuszgromada.math.mxparser.*;
 import ru.ssau.tk.fx.numericalmethods.controller.Methods;
-import ru.ssau.tk.fx.numericalmethods.model.BivariateFunction;
-import ru.ssau.tk.fx.numericalmethods.model.DerivativeBivariateFunction;
-import ru.ssau.tk.fx.numericalmethods.model.MyFunction;
-import ru.ssau.tk.fx.numericalmethods.utils.Constants;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {

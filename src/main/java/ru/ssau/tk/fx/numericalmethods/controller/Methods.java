@@ -1,17 +1,12 @@
 package ru.ssau.tk.fx.numericalmethods.controller;
 
+import org.apache.commons.math3.analysis.BivariateFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.*;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.univariate.BrentOptimizer;
-import org.apache.commons.math3.optim.univariate.SearchInterval;
-import org.apache.commons.math3.optim.univariate.UnivariateObjectiveFunction;
-import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
@@ -96,10 +91,10 @@ public class Methods {
 
 
     public RealVector calculateNewtonMethod(String f1, String f2, double xValue, double yValue) {
-        Function firstFunction = new Function("f1", new BivariateFunction(f1));
-        Function secondFunction = new Function("f2", new BivariateFunction(f2));
-        Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunction(f1));
-        Function secondFunctionD = new Function("f2D", new DerivativeBivariateFunction(f2));
+        Function firstFunction = new Function("f1", new BivariateFunctionLab2(f1));
+        Function secondFunction = new Function("f2", new BivariateFunctionLab2(f2));
+        Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunctionLab2(f1));
+        Function secondFunctionD = new Function("f2D", new DerivativeBivariateFunctionLab2(f2));
 
         RealVector xkVector = new ArrayRealVector(new double[]{xValue, yValue}, false);
         RealVector xkNewVector;
@@ -125,10 +120,10 @@ public class Methods {
     }
 
     public RealVector calculateModifiedNewtonMethod(String f1, String f2, double xValue, double yValue) {
-        Function firstFunction = new Function("f1", new BivariateFunction(f1));
-        Function secondFunction = new Function("f2", new BivariateFunction(f2));
-        Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunction(f1));
-        Function secondFunctionD = new Function("f2D", new DerivativeBivariateFunction(f2));
+        Function firstFunction = new Function("f1", new BivariateFunctionLab2(f1));
+        Function secondFunction = new Function("f2", new BivariateFunctionLab2(f2));
+        Function firstFunctionD = new Function("f1D", new DerivativeBivariateFunctionLab2(f1));
+        Function secondFunctionD = new Function("f2D", new DerivativeBivariateFunctionLab2(f2));
 
         RealVector xkVector = new ArrayRealVector(new double[]{xValue, yValue}, false);
         RealVector xkNewVector;
@@ -155,7 +150,7 @@ public class Methods {
     }
 
     public double getDiscrepancy(String f, double xValue, double yValue) {
-        Function function = new Function("f", new BivariateFunction(f));
+        Function function = new Function("f", new BivariateFunctionLab2(f));
         return function.calculate(xValue, yValue);
     }
 
@@ -170,21 +165,21 @@ public class Methods {
 
 
     public double calculateMNPlusOne(double a, double b) {
-        DerivativeMyFunction derivativeMyFunction = new DerivativeMyFunction();
+        DerivativeMyFunctionLab3 derivativeMyFunctionLab3 = new DerivativeMyFunctionLab3();
 
-        double min = derivativeMyFunction.value(a);
+        double min = derivativeMyFunctionLab3.value(a);
         double shift = 0.000001;
         double tmpMin = 0.0;
         for (double i = a + shift; i < b; i += shift) {
-            tmpMin = derivativeMyFunction.value(i);
+            tmpMin = derivativeMyFunctionLab3.value(i);
             if (min > tmpMin)
                 min = tmpMin;
         }
 
-        double max = derivativeMyFunction.value(a);
+        double max = derivativeMyFunctionLab3.value(a);
         double tmpMax = 0.0;
         for (double i = a + shift; i < b; i += shift) {
-            tmpMax = derivativeMyFunction.value(i);
+            tmpMax = derivativeMyFunctionLab3.value(i);
             if (max < tmpMax)
                 max = tmpMax;
         }
@@ -197,7 +192,7 @@ public class Methods {
     }
 
     public double[] descretizeX(double a, double b, double h) {
-        MyFunction myFunction = new MyFunction();
+        MyFunctionLab3 myFunctionLab3 = new MyFunctionLab3();
         int n = (int) Math.round((b - a) / h);
         double[] xArray = new double[n];
 
@@ -213,13 +208,13 @@ public class Methods {
     }
 
     public double[] descretizeY(double a, double b, double h) {
-        MyFunction myFunction = new MyFunction();
+        MyFunctionLab3 myFunctionLab3 = new MyFunctionLab3();
         int n = (int) Math.round((b - a) / h);
         double x = 0;
         double[] yArray = new double[n];
 
         for (int i = 0; i < n; i++) {
-            yArray[i] = myFunction.value(x);
+            yArray[i] = myFunctionLab3.value(x);
             x += h;
         }
         return yArray;
@@ -384,6 +379,69 @@ public class Methods {
         }
 
         return new PolynomialSplineFunction(x, polynomials);
+    }
+
+
+    public double delta(BivariateFunction function, double x, double y, double h) {
+        double f0 = h * function.value(x, y);
+        double f1 = h * function.value(x + h / 2, y + f0 / 2);
+        double f2 = h * function.value(x + h / 2, y + f1 / 2);
+        double f3 = h * function.value(x + h, y + f2);
+        return (f0 + 2 * f1 + 2 * f2 + f3) / 6;
+
+    }
+
+    public double defineStep(double h, double a, double b, double y0, double x0){
+        MyFunctionLab4 myFunction = new MyFunctionLab4();
+        double h0 = h;
+        double y1;
+        double y2;
+        double y2Double;
+        double dyy2;
+        while (true){
+            y1 = y0 + delta(myFunction, x0, y0, h0);
+            y2 = y1 + delta(myFunction, x0+h0, y1, h0);
+            y2Double = y0 + delta(myFunction, x0, y0, 2*h0);
+            dyy2 = FastMath.abs(y2 - y2Double);
+            if ( dyy2 < FastMath.pow(10, -4)){
+                h0 *=2;
+            } else {
+                break;
+            }
+        }
+        int n = (int) Math.round((b - a) / h0) + 1;
+        if ( n % 2 == 1) {
+            n++;
+        }
+        h0 = (b - a) / n;
+        y1 = y0 + delta(myFunction, x0, y0, h0);
+        y2 = y1 + delta(myFunction, x0 + h0, y1, h0);
+        y2Double = y0 + delta(myFunction, x0, y0, 2*h0);
+        dyy2 = FastMath.abs(y2 - y2Double);
+        return h0;
+
+    }
+
+    public double[] calculateRungeCutta(double[] x, double y0, double a, double b, double h) {
+        MyFunctionLab4 myFunction = new MyFunctionLab4();
+        int n = (int) Math.round((b - a) / h) + 1;
+        double[] y = new double[n];
+        y[0] = y0;
+        for (int i = 1; i < n; i++) {
+            y[i] = y[i - 1] + delta(myFunction,x[0] + (i - 1) * h, y[i - 1], h);
+        }
+        return y;
+    }
+
+    public double[] calculateEiler(double[] x, double y0, double a, double b, double h){
+        MyFunctionLab4 myFunction = new MyFunctionLab4();
+        int n = (int) Math.round((b - a) / h) + 1;
+        double[] y = new double[n];
+        y[0] = y0;
+        for (int i = 1; i < n; i++){
+            y[i] = y[i-1] + h*myFunction.value(x[0] + (i-1)*h, y[i-1]);
+        }
+        return y;
     }
 
 

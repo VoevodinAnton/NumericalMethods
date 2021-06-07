@@ -8,10 +8,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.util.StringConverter;
-import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.util.FastMath;
 import org.gillius.jfxutils.chart.JFXChartUtil;
-import ru.ssau.tk.fx.numericalmethods.model.MyFunction;
+import ru.ssau.tk.fx.numericalmethods.model.MyFunctionLab3;
 import org.gillius.jfxutils.chart.ChartPanManager;
 
 import java.text.DecimalFormat;
@@ -20,7 +19,7 @@ import java.text.ParseException;
 
 public class Lab3Controller {
     Methods methods;
-    MyFunction myFunction;
+    MyFunctionLab3 myFunctionLab3;
     double a = 0;
     double b = 10;
     XYChart.Series series1;
@@ -51,7 +50,7 @@ public class Lab3Controller {
 
     {
         methods = new Methods();
-        myFunction = new MyFunction();
+        myFunctionLab3 = new MyFunctionLab3();
 
         series1 = new XYChart.Series();
         series2 = new XYChart.Series();
@@ -99,7 +98,7 @@ public class Lab3Controller {
 
         for (double x = h; x <  4*h; x += 0.01) {
             series1.getData().add(
-                    new XYChart.Data<Number, Number>(x, myFunction.value(x)));
+                    new XYChart.Data<Number, Number>(x, myFunctionLab3.value(x)));
             series2.getData().add(
                     new XYChart.Data<Number, Number>(x, methods.interpolateWithLagrangePolynomial(xLagrange, yLagrange, x))
             );
@@ -112,15 +111,15 @@ public class Lab3Controller {
             series6.getData().add(
                     new XYChart.Data<Number, Number>(x, methods.interpolateCubicSpline(xArray, yArray).value(x)));
             series7.getData().add(
-                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateWithLagrangePolynomial(xLagrange, yLagrange, x) - myFunction.value(x))));
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateWithLagrangePolynomial(xLagrange, yLagrange, x) - myFunctionLab3.value(x))));
             series8.getData().add(
-                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateWithNewtonMethod(x, xLagrange, yLagrange, h) - myFunction.value(x))));
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateWithNewtonMethod(x, xLagrange, yLagrange, h) - myFunctionLab3.value(x))));
             series9.getData().add(
-                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateLinearSpline(xArray, yArray).value(x) - myFunction.value(x))));
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateLinearSpline(xArray, yArray).value(x) - myFunctionLab3.value(x))));
             series10.getData().add(
-                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateParabolicSpline(xArray, yArray).value(x) - myFunction.value(x))));
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateParabolicSpline(xArray, yArray).value(x) - myFunctionLab3.value(x))));
             series11.getData().add(
-                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateCubicSpline(xArray, yArray).value(x) - myFunction.value(x))));
+                    new XYChart.Data<Number, Number>(x, FastMath.abs(methods.interpolateCubicSpline(xArray, yArray).value(x) - myFunctionLab3.value(x))));
 
         }
 
@@ -187,7 +186,7 @@ public class Lab3Controller {
         });
 
         NumberFormat format = new DecimalFormat("0.######E0");
-        yAxisTwo.setTickLabelFormatter(new StringConverter<Number>() {
+        yAxisTwo.setTickLabelFormatter(new StringConverter<>() {
 
             @Override
             public String toString(Number number) {
@@ -200,7 +199,7 @@ public class Lab3Controller {
                     return format.parse(string);
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    return 0 ;
+                    return 0;
                 }
             }
 
