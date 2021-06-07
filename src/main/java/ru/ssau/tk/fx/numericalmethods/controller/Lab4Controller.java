@@ -20,6 +20,9 @@ import org.gillius.jfxutils.chart.JFXChartUtil;
 import ru.ssau.tk.fx.numericalmethods.model.DataLab4;
 import ru.ssau.tk.fx.numericalmethods.model.MyFunctionLab4;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class Lab4Controller {
     @FXML
     public TableView table;
@@ -98,7 +101,7 @@ public class Lab4Controller {
                 mouseEvent.consume();
         });
 
-        lineChart.getData().addAll(series2, series3);
+        lineChart.getData().addAll(series1, series2, series3);
 
 
 
@@ -106,11 +109,11 @@ public class Lab4Controller {
         TableColumn<DataLab4, Double> columnX = new TableColumn<>("x");
         columnX.setPrefWidth(60);
         TableColumn<DataLab4, Double> columnY = new TableColumn<>("Точное решение");
-        TableColumn<DataLab4, Double> columnRungeCutta = new TableColumn<>("Метод Рунге-Кутта");
+        TableColumn<DataLab4, Double> columnRungeCutta = new TableColumn<>("Метод Рунге-Кутты");
         columnRungeCutta.setPrefWidth(140);
         TableColumn<DataLab4, Double> columnEiler = new TableColumn<>("Метод Эйлера");
         columnEiler.setPrefWidth(120);
-        TableColumn<DataLab4, Double> columnErrorRungeCutta = new TableColumn<>("Погрешность метода Рунге-Кутта");
+        TableColumn<DataLab4, Double> columnErrorRungeCutta = new TableColumn<>("Погрешность метода Рунге-Кутты");
         columnErrorRungeCutta.setPrefWidth(180);
         TableColumn<DataLab4, Double> columnErrorEiler = new TableColumn<>("Погрешность метода Эйлера");
         columnErrorEiler.setPrefWidth(180);
@@ -199,6 +202,9 @@ public class Lab4Controller {
 
         ObservableList<DataLab4> listLab4 = FXCollections.observableArrayList();
 
+        Double[] errorRC4 = new Double[x.length];
+        Double[] errorEiler = new Double[x.length];
+
         for (int i = 0; i < x.length; i++){
             listLab4.add(new DataLab4(x[i],
                     exactFunction.value(x[i]),
@@ -206,7 +212,16 @@ public class Lab4Controller {
                     yEiler[i],
                     FastMath.abs(exactFunction.value(x[i]) - yRungeCutta[i]),
                     FastMath.abs(exactFunction.value(x[i]) - yEiler[i])));
+
+            errorRC4[i] = exactFunction.value(x[i]) - yRungeCutta[i];
+            errorEiler[i] = exactFunction.value(x[i]) - yEiler[i];
         }
+
+        Arrays.sort(errorRC4, Collections.reverseOrder());
+        Arrays.sort(errorEiler, Collections.reverseOrder());
+
+        System.out.println("Максимальная погрешность для метода Рунге-Кутты: " + errorRC4[0]);
+        System.out.println("Максимальная погрешность для метода Эйлера: " + errorEiler[0]);
 
         table.setItems(listLab4);
 

@@ -388,38 +388,34 @@ public class Methods {
         double f2 = h * function.value(x + h / 2, y + f1 / 2);
         double f3 = h * function.value(x + h, y + f2);
         return (f0 + 2 * f1 + 2 * f2 + f3) / 6;
-
     }
 
-    public double defineStep(double h, double a, double b, double y0, double x0){
+    public double defineStep(double h, double a, double b, double y0, double x0) {
         MyFunctionLab4 myFunction = new MyFunctionLab4();
         double h0 = h;
         double y1;
         double y2;
         double y2Double;
         double dyy2;
-        while (true){
+        int count = 0;
+        while (true) {
             y1 = y0 + delta(myFunction, x0, y0, h0);
-            y2 = y1 + delta(myFunction, x0+h0, y1, h0);
-            y2Double = y0 + delta(myFunction, x0, y0, 2*h0);
+            y2 = y1 + delta(myFunction, x0 + h0, y1, h0);
+            y2Double = y0 + delta(myFunction, x0, y0, 2 * h0);
             dyy2 = FastMath.abs(y2 - y2Double);
-            if ( dyy2 < FastMath.pow(10, -4)){
-                h0 *=2;
+            if (dyy2 > Math.pow(10, -4)) {
+                h0 = h0 / 2;
             } else {
                 break;
             }
         }
+        h0 = 2*h0;
         int n = (int) Math.round((b - a) / h0) + 1;
-        if ( n % 2 == 1) {
+        if (n % 2 == 1) {
             n++;
         }
         h0 = (b - a) / n;
-        y1 = y0 + delta(myFunction, x0, y0, h0);
-        y2 = y1 + delta(myFunction, x0 + h0, y1, h0);
-        y2Double = y0 + delta(myFunction, x0, y0, 2*h0);
-        dyy2 = FastMath.abs(y2 - y2Double);
         return h0;
-
     }
 
     public double[] calculateRungeCutta(double[] x, double y0, double a, double b, double h) {
@@ -428,18 +424,18 @@ public class Methods {
         double[] y = new double[n];
         y[0] = y0;
         for (int i = 1; i < n; i++) {
-            y[i] = y[i - 1] + delta(myFunction,x[0] + (i - 1) * h, y[i - 1], h);
+            y[i] = y[i - 1] + delta(myFunction, x[0] + (i - 1) * h, y[i - 1], h);
         }
         return y;
     }
 
-    public double[] calculateEiler(double[] x, double y0, double a, double b, double h){
+    public double[] calculateEiler(double[] x, double y0, double a, double b, double h) {
         MyFunctionLab4 myFunction = new MyFunctionLab4();
         int n = (int) Math.round((b - a) / h) + 1;
         double[] y = new double[n];
         y[0] = y0;
-        for (int i = 1; i < n; i++){
-            y[i] = y[i-1] + h*myFunction.value(x[0] + (i-1)*h, y[i-1]);
+        for (int i = 1; i < n; i++) {
+            y[i] = y[i - 1] + h * myFunction.value(x[0] + (i - 1) * h, y[i - 1]);
         }
         return y;
     }
